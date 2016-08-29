@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace subhashgehlot
 {
@@ -10,6 +9,45 @@ namespace subhashgehlot
     {
         static void Main(string[] args)
         {
+            Program prog = new Program();
+
+            switch (args[0])
+            {
+                //Adds the Numbers specified in the arguments
+                case "sum":
+                    if (args.Length > 1)
+                    { prog.Sum(args[1]); }
+                    else
+                    {
+                        Console.Write("Sum of the numbers is : 0");
+                        Console.Read();
+                    }
+                    break;
+
+            }
+        }
+
+
+        //Adds the Numbers specified in the arguments
+        void Sum(string numbers)
+        {
+            int sum = 0;
+
+            if (numbers != null)
+            {
+
+                char splitter = ',';
+                string[] numbersArray = numbers.Split(splitter);
+
+                for (int counter = 0; counter < numbersArray.Count(); counter++)
+                {
+                    sum += Convert.ToInt16(numbersArray[counter]);
+                }
+
+                Console.Write("Sum of the numbers is :" + sum);
+                Console.Read();
+
+            }
         }
     }
 }
