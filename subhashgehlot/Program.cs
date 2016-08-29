@@ -28,7 +28,12 @@ namespace subhashgehlot
                 //Adds the Numbers specified in the arguments : Task 2
                 case "add":
                     if (args.Length > 1)
-                    { prog.Add(args[1]); }
+                    {
+                        string[] numbersArray = args[1].Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+                        string delimeter = numbersArray[0];//Stores the splitting delimeter entered by the user
+                        string data = numbersArray[1];//Stores the data
+                        prog.Add(data,delimeter);
+                    }
                     else
                     {
                         Console.Write("Sum of the numbers is : 0");
@@ -63,16 +68,18 @@ namespace subhashgehlot
         }
 
         //Adds the Numbers specified in the arguments
-        void Add(string numbers)
+        void Add(string numbers,string splitter)
         {
             int sum = 0;
 
             if (numbers != null)
             {
+                
                 //Spliter is used for splitting comma and new line argument given
-               string[] splitter = new string[] { ",", "\\n" };
+               //Commented because implimented Task 4 having user defined delimeter
+                //string[] splitter = new string[] { ",", "\\n" };
                
-                string[] numbersArray = numbers.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+                string[] numbersArray = numbers.Split(new string[] { splitter }, StringSplitOptions.None);
                
                 for (int counter = 0; counter < numbersArray.Count(); counter++)
                 {
