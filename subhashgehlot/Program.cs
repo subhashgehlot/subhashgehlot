@@ -42,14 +42,66 @@ namespace subhashgehlot
                         Console.Read();
                     }
                     break;
-                    
+
+                //Multiplies the Numbers specified in the arguments : Task 8
+                case "multiply":
+                    if (args.Length > 1)
+                    {
+                        string[] numbersArray = args[1].Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+                        string delimeter = numbersArray[0];//Stores the splitting delimeter entered by the user
+                        string data = numbersArray[1];//Stores the data
+
+                        prog.Multiply(data, delimeter);
+
+                    }
+                    else
+                    {
+                        Console.Write("Multiplication of the numbers is : 0");
+                        Console.Read();
+                    }
+                    break;
+
+
+
             }
         }
+
+        //Task 8
+        //Multiplies the Numbers specified in the arguments
+        void Multiply(string numbers, string splitter)
+        {
+            int multiply = 1;
+
+            if (numbers != null)
+            {
+                
+                string[] numbersArray = numbers.Split(new string[] { splitter }, StringSplitOptions.None);
+                if (checkNegative(numbers))
+                {
+                    var negativeNumbers = numbersArray.Where(num => Convert.ToInt16(num) < 0);
+                    Console.Write("Negative numbers(" + string.Join(",", negativeNumbers) + ") not allowed");
+                    Console.Read();
+                }
+                else
+                {
+                    
+                    for (int counter = 0; counter < numbersArray.Count(); counter++)
+                    {
+                           int num = Convert.ToInt16(numbersArray[counter]);
+                        multiply *= num <= 1000 ? num : 1;
+                    }
+
+                    Console.Write("Multiplication of the numbers is :" + multiply);
+                    Console.Read();
+                }
+            }
+        }
+
 
         //checks whether the data provided contains any negative values
         bool checkNegative(string data)
         {
-            if(data.Contains('-'))
+            if (data.Contains('-'))
                 return true;
             else
                 return false;
