@@ -32,15 +32,8 @@ namespace subhashgehlot
                         string[] numbersArray = args[1].Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
                         string delimeter = numbersArray[0];//Stores the splitting delimeter entered by the user
                         string data = numbersArray[1];//Stores the data
-                        bool flag = prog.checkNegative(data);
-                        if (flag)
-                        {
-                            Console.Write("Negative Numbers are not allowed");
-                            Console.Read();
-                            break;
-                        }
-                        else
-                            prog.Add(data, delimeter);    
+
+                        prog.Add(data, delimeter);    
 
                     }
                     else
@@ -98,15 +91,25 @@ namespace subhashgehlot
                 //string[] splitter = new string[] { ",", "\\n" };
                
                 string[] numbersArray = numbers.Split(new string[] { splitter }, StringSplitOptions.None);
-               
-                for (int counter = 0; counter < numbersArray.Count(); counter++)
+                //Task 6
+                if (checkNegative(numbers))
                 {
-                    sum += Convert.ToInt16(numbersArray[counter]);
+                    var negativeNumbers = numbersArray.Where(num => Convert.ToInt16(num) < 0);
+                    Console.Write("Negative numbers(" + string.Join(",", negativeNumbers) + ") not allowed");
+                    Console.Read();
                 }
+                else
+                {
+                    for (int counter = 0; counter < numbersArray.Count(); counter++)
+                    {
+                        //Task 7 Check above 1000 and ignore that number in calculation
+                        int num = Convert.ToInt16(numbersArray[counter]);
+                        sum += num<=1000?num:0;
+                    }
 
-                Console.Write("Sum of the numbers is :" + sum);
-                Console.Read();
-
+                    Console.Write("Sum of the numbers is :" + sum);
+                    Console.Read();
+                }
             }
         }
 
