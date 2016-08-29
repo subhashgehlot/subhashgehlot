@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace subhashgehlot
 {
@@ -27,7 +28,7 @@ namespace subhashgehlot
                 //Adds the Numbers specified in the arguments : Task 2
                 case "add":
                     if (args.Length > 1)
-                    { prog.Sum(args[1]); }
+                    { prog.Add(args[1]); }
                     else
                     {
                         Console.Write("Sum of the numbers is : 0");
@@ -68,10 +69,11 @@ namespace subhashgehlot
 
             if (numbers != null)
             {
-
-                char splitter = ',';
-                string[] numbersArray = numbers.Split(splitter);
-
+                //Spliter is used for splitting comma and new line argument given
+               string[] splitter = new string[] { ",", "\\n" };
+               
+                string[] numbersArray = numbers.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+               
                 for (int counter = 0; counter < numbersArray.Count(); counter++)
                 {
                     sum += Convert.ToInt16(numbersArray[counter]);
