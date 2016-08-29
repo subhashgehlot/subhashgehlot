@@ -32,7 +32,16 @@ namespace subhashgehlot
                         string[] numbersArray = args[1].Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
                         string delimeter = numbersArray[0];//Stores the splitting delimeter entered by the user
                         string data = numbersArray[1];//Stores the data
-                        prog.Add(data,delimeter);
+                        bool flag = prog.checkNegative(data);
+                        if (flag)
+                        {
+                            Console.Write("Negative Numbers are not allowed");
+                            Console.Read();
+                            break;
+                        }
+                        else
+                            prog.Add(data, delimeter);    
+
                     }
                     else
                     {
@@ -42,6 +51,15 @@ namespace subhashgehlot
                     break;
                     
             }
+        }
+
+        //checks whether the data provided contains any negative values
+        bool checkNegative(string data)
+        {
+            if(data.Contains('-'))
+                return true;
+            else
+                return false;
         }
 
 
