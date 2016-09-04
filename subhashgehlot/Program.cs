@@ -1,103 +1,89 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace subhashgehlot
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+            //Creates a new instance so that static method can access non static members or methods in the main
+            //To call the method here without creating the object you will have to declare the methods as static
             Program prog = new Program();
 
-            switch (args[0])
+            if (args.Length > 1)
             {
-                //Adds the Numbers specified in the arguments : Task 1
-                case "sum":
-                    if (args.Length > 1)
-                    { prog.Sum(args[1]); }
-                    else
-                    {
-                        Console.Write("Sum of the numbers is : 0");
-                        Console.Read();
-                    }
-                    break;
+                if (args[1].Contains("\\\\"))
+                {
+                    string[] numbersArray = args[1].Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] delimeter = new string[] { numbersArray[0] };//Stores the splitting delimeter entered by the user
+                    string data = numbersArray[1];//Stores the data
+                    prog.Calculate(data, delimeter, args[0]);
 
-                //Adds the Numbers specified in the arguments : Task 2
-                case "add":
-                    if (args.Length > 1)
-                    {
-                        string[] numbersArray = args[1].Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
-                        string delimeter = numbersArray[0];//Stores the splitting delimeter entered by the user
-                        string data = numbersArray[1];//Stores the data
-
-                        prog.Add(data, delimeter);    
-
-                    }
-                    else
-                    {
-                        Console.Write("Sum of the numbers is : 0");
-                        Console.Read();
-                    }
-                    break;
-
-                //Multiplies the Numbers specified in the arguments : Task 8
-                case "multiply":
-                    if (args.Length > 1)
-                    {
-                        string[] numbersArray = args[1].Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
-                        string delimeter = numbersArray[0];//Stores the splitting delimeter entered by the user
-                        string data = numbersArray[1];//Stores the data
-
-                        prog.Multiply(data, delimeter);
-
-                    }
-                    else
-                    {
-                        Console.Write("Multiplication of the numbers is : 0");
-                        Console.Read();
-                    }
-                    break;
-
-
-
+                }
+                else
+                {
+                    string[] delimeter = new string[] { ",", "\\n" };//Stores the splitting delimeter entered by the user
+                    prog.Calculate(args[1], delimeter, args[0]);
+                }
             }
+            else
+            {
+                Console.Write("0");
+                Console.Read();
+            }
+
         }
 
-        //Task 8
-        //Multiplies the Numbers specified in the arguments
-        void Multiply(string numbers, string splitter)
+        public void Calculate(string numbers, string[] splitter,string type)
         {
-            int multiply = 1;
-
-            if (numbers != null)
+            
+            int result; // Keeps the result of the calculations
+            if (numbers != null && splitter!=null && type!=null)
             {
-                
-                string[] numbersArray = numbers.Split(new string[] { splitter }, StringSplitOptions.None);
+                string[] numbersArray = numbers.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+
+                //Gets in the "if" clause if any of the number is negative in the list
                 if (checkNegative(numbers))
                 {
                     var negativeNumbers = numbersArray.Where(num => Convert.ToInt16(num) < 0);
                     Console.Write("Negative numbers(" + string.Join(",", negativeNumbers) + ") not allowed");
                     Console.Read();
                 }
+                //Goes through this clause if no negative number is present
                 else
                 {
-                    
-                    for (int counter = 0; counter < numbersArray.Count(); counter++)
+                    //Switch is used to go to the appropriate operation specified
+                    switch (type.ToLower())
                     {
-                           int num = Convert.ToInt16(numbersArray[counter]);
-                        multiply *= num <= 1000 ? num : 1;
-                    }
+                        //This case will be selected for multiplication operation
+                        case "multiply":
+                            result = 1;
+                            for (int counter = 0; counter < numbersArray.Count(); counter++)
+                            {
+                                int num = Convert.ToInt16(numbersArray[counter]);
+                                result *= num <= 1000 ? num : 1;
+                            }
+                            Console.Write(result);
+                            Console.Read();
+                            break;
 
-                    Console.Write("Multiplication of the numbers is :" + multiply);
-                    Console.Read();
+                        //This case will be selected for addition operation
+                        case "add": case"sum":
+                            result = 0;
+                            for (int counter = 0; counter < numbersArray.Count(); counter++)
+                            {
+                                int num = Convert.ToInt16(numbersArray[counter]);
+                                result += num <= 1000 ? num : 0;
+                            }
+                            Console.Write(result);
+                            Console.Read();
+                            break;
+                    }
                 }
             }
         }
-
-
+        
         //checks whether the data provided contains any negative values
         bool checkNegative(string data)
         {
@@ -106,64 +92,6 @@ namespace subhashgehlot
             else
                 return false;
         }
-
-
-        //Adds the Numbers specified in the arguments
-        void Sum(string numbers)
-        {
-            int sum = 0;
-
-            if (numbers != null)
-            {
-
-                char splitter = ',';
-                string[] numbersArray = numbers.Split(splitter);
-
-                for (int counter = 0; counter < numbersArray.Count(); counter++)
-                {
-                    sum += Convert.ToInt16(numbersArray[counter]);
-                }
-
-                Console.Write("Sum of the numbers is :" + sum);
-                Console.Read();
-
-            }
-        }
-
-        //Adds the Numbers specified in the arguments
-        void Add(string numbers,string splitter)
-        {
-            int sum = 0;
-
-            if (numbers != null)
-            {
-                
-                //Spliter is used for splitting comma and new line argument given
-               //Commented because implimented Task 4 having user defined delimeter
-                //string[] splitter = new string[] { ",", "\\n" };
-               
-                string[] numbersArray = numbers.Split(new string[] { splitter }, StringSplitOptions.None);
-                //Task 6
-                if (checkNegative(numbers))
-                {
-                    var negativeNumbers = numbersArray.Where(num => Convert.ToInt16(num) < 0);
-                    Console.Write("Negative numbers(" + string.Join(",", negativeNumbers) + ") not allowed");
-                    Console.Read();
-                }
-                else
-                {
-                    for (int counter = 0; counter < numbersArray.Count(); counter++)
-                    {
-                        //Task 7 Check above 1000 and ignore that number in calculation
-                        int num = Convert.ToInt16(numbersArray[counter]);
-                        sum += num<=1000?num:0;
-                    }
-
-                    Console.Write("Sum of the numbers is :" + sum);
-                    Console.Read();
-                }
-            }
-        }
-
+        
     }
 }
